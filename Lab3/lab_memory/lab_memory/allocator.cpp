@@ -19,6 +19,14 @@ Allocator::Allocator(const string & studentFile, const string & roomFile)
 }
 
 /**
+ * Allocator destructor. Deallocates the memory used for alpha and rooms.
+ */
+Allocator::~Allocator() {
+    delete[] alpha;
+    delete[] rooms;
+}
+
+/**
  * Allocates the array of letters
  */
 void Allocator::createLetterGroups()
@@ -55,15 +63,16 @@ void Allocator::loadRooms(const string & file)
 {
 	// Read in rooms
 	fileio::loadRooms(file);
+	roomCount = fileio::getNumRooms();
 	rooms = new Room[roomCount];
 
 	totalCapacity = 0;
 	int i = 0;
 	while (fileio::areMoreRooms())
 	{
-		i++;
 		rooms[i] = fileio::nextRoom();
 		totalCapacity += rooms[i].capacity;
+		i++;
 	}
 }
 
