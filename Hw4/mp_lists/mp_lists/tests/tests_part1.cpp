@@ -25,7 +25,9 @@ TEST_CASE("List::insertFront size", "[weight=1][part=1][valgrind]") {
 TEST_CASE("List::insertBack size", "[weight=2][part=1][valgrind]") {
     List<int> list;
 
-    for (unsigned i = 0; i < 10; i++) { list.insertBack(i); }
+    for (unsigned i = 0; i < 10; i++) {
+        list.insertBack(i);
+        }
 
     REQUIRE( 10 == list.size() );
 }
@@ -105,6 +107,7 @@ TEST_CASE("List::split images", "[weight=5][part=1]") {
     for (unsigned i = 0; i < in.width(); i++)
         for (unsigned j = 0; j < in.height(); j++)
             list1.insertBack(*in(i, j));
+    
     List<RGBAPixel> list2 = list1.split(400 * 240);
     List<RGBAPixel> list3 = list2.split(400 * 240);
 

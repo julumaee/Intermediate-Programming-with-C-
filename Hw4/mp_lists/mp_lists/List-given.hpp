@@ -65,7 +65,7 @@ void List<T>::_copy(List<T> const& other) {
  */
 template <typename T>
 List<T>::~List() {
-  _destroy();
+    _destroy();
 }
 
 /**
@@ -107,6 +107,7 @@ List<T> List<T>::split(int splitPoint) {
             ret.tail_ = ret.tail_->next;
     }
     ret.length_ = oldLength - splitPoint;
+
     return ret;
 }
 

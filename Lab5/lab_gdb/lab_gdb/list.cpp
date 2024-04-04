@@ -31,6 +31,13 @@ template <class T>
 void List<T>::clear()
 {
     // @todo Graded in lab_gdb
+    while (head != nullptr) {
+        ListNode *temp = head;
+        head = head->next;
+        delete temp;
+    }
+    head = nullptr;
+    length = 0;
 }
 
 /**
@@ -43,6 +50,12 @@ template <class T>
 void List<T>::insertFront(T const & ndata)
 {
     // @todo Graded in lab_gdb
+    ListNode * newNode = new ListNode(ndata);
+    newNode->next = head;
+    head = newNode;
+    length++;
+
+    // std::cout << "insertFront: length_ = " << length_ << std::endl; // Debug statement
 }
 
 /**
@@ -65,9 +78,9 @@ void List<T>::insertBack( const T & ndata )
     {
         while (temp->next != NULL)
             temp = temp->next;
-        temp = new ListNode(ndata);
-        length++;
+        temp->next = new ListNode(ndata);
     }
+    length++;
 }
 
 
@@ -94,7 +107,7 @@ typename List<T>::ListNode* List<T>::reverse( ListNode * curr, ListNode * prev, 
 {
     // @todo Graded in lab_gdb
     ListNode * temp;
-    if (len <= 0)
+    if (len <= 1)
     {
         curr->next = prev;
         return curr;
@@ -138,8 +151,11 @@ void List<T>::shuffle()
     {
         temp = one->next;
         one->next = two;
-        two = two->next;
-        one->next->next = temp;
+        one = temp;
+
+        temp = two->next;
+        two->next = one;
+        two = temp;
     }
 }
 
