@@ -50,7 +50,12 @@ CommonWords::CommonWords(const vector<string>& filenames)
  */
 void CommonWords::init_common() 
 {
-    /* Your code goes here! */
+
+    for (auto& file_map : file_word_maps) {
+        for (const auto& pair : file_map) {
+            common[pair.first]++;
+        }
+    }
 }
 
 /**
@@ -68,6 +73,9 @@ void CommonWords::init_file_word_maps(const vector<string>& filenames)
         // get the corresponding vector of words that represents the current file
         vector<string> words = file_to_vector(filenames[i]);
         /* Your code goes here! */
+        for (auto & word : words) {
+            file_word_maps.at(i)[word]++;
+        }
     }
 }
 
@@ -79,8 +87,26 @@ void CommonWords::init_file_word_maps(const vector<string>& filenames)
  */
 vector< string > CommonWords::get_common_words(unsigned int n) const
 {
-    /* Your code goes here! */
     vector<string> out;
+
+    for (auto & map : file_word_maps) {
+        for (auto & pair : map) {
+            if (pair.second >= n && common.at(pair.first) == file_word_maps.size()) {
+                // If the word is not already in 'out', add it
+                auto it = std::find(out.begin(), out.end(), pair.first);
+                if (it == out.end()) {
+                    out.push_back(pair.first);
+                }
+            } else {
+                // If the word is in 'out', erase it
+                auto it = std::find(out.begin(), out.end(), pair.first);
+                if (it != out.end()) {
+                    out.erase(it);
+                }
+            }
+        }
+    }
+ 
     return out;
 }
 
