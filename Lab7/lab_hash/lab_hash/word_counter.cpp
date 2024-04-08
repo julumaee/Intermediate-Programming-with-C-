@@ -22,14 +22,21 @@ WordFreq<Dict>::WordFreq( const string & infile ) : filename( infile ) {
 
 template <template <class K, class V> class Dict>
 vector< pair<string, int> > WordFreq<Dict>::getWords( int threshold ) const {
+    
     TextFile infile( filename );
+    Dict<string, int> hashTable(256);
+
+    while ( infile.good() ) {
+        string word = infile.getNextWord();
+        hashTable[word]++;
+    }
+
     vector< pair<string, int> > ret;
-    /**
-     * @todo Implement this function.
-     * @see char_counter.cpp if you're having trouble.
-     */
+    typename Dict<string, int>::iterator it;
 
-    (void) threshold; // prevent warnings... When you implement this function, remove this line.
-
+    for ( it = hashTable.begin(); it != hashTable.end(); it++ ) {
+        if( it->second >= threshold )
+            ret.push_back( *it );
+    }
     return ret;
 }

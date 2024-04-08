@@ -7,6 +7,7 @@
  * @date Summer 2012
  */
 #include "lphashtable.h"
+#include <iostream>
 
 using hashes::hash;
 using std::pair;
@@ -81,8 +82,20 @@ void LPHashTable<K,V>::insert( K const & key, V const & value ) {
      *  forget to mark the cell for probing with should_probe!
      */
 
-    (void) key;   // prevent warnings... When you implement this function, remove this line.
-    (void) value; // prevent warnings... When you implement this function, remove this line.
+    ++elems;
+    if (elems / size >= 0.7) {
+        resizeTable();
+    }
+    size_t index = hash(key, size);
+    size_t startIndex = index;
+
+    while (table[index] != NULL && table[index]->first != key) {
+        index = (index + 1) % size;
+    }
+
+    table[index] = new pair<K,V>(key, value);
+    should_probe[index] = true;
+
 }
 
 template <class K, class V>
